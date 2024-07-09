@@ -10,7 +10,7 @@ network --device=link --bootproto=static --hostname <%= @hostname %> --ip=<%= @n
 <% else -%>
 network --hostname <%= @hostname %>
 <% end -%>
-rootpw --iscrypted <%= @rootpw %>
+rootpw --allow-ssh --iscrypted <%= @rootpw %>
 firewall --service=ssh
 authselect --useshadow --passalgo=sha256 --kickstart
 timezone --utc <%= @timezone %>
