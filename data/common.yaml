@@ -1,0 +1,10 @@
+---
+bootstrap_infra::domain: '%{::domain}'
+bootstrap_infra::mirror: 'https://download.iaas.uio.no/nrec/prod/el8/almalinux-base'
+
+bootstrap_infra::setup::tftp::dirs:
+  - '/var/lib/tftpboot'
+  - '/var/lib/tftpboot/boot'
+  - '/var/lib/tftpboot/pxelinux.cfg'
+bootstrap_infra::setup::tftp::packages:
+  - 'syslinux'

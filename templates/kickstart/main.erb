@@ -1,0 +1,42 @@
+url --url <%= @mirror %>
+lang en_US.UTF-8
+selinux --permissive
+keyboard <%= @keyboard %>
+skipx
+<% if @use_dhcp -%>
+network --bootproto dhcp --hostname <%= @hostname %>
+<%  elsif !@install_ip.empty? and !@install_netmask.empty? and !@install_gateway.empty? -%>
+network --device=link --bootproto=static --hostname <%= @hostname %> --ip=<%= @install_ip %> --netmask=<%= @install_netmask %> --gateway=<%= @install_gateway %> --nameserver=<%= @nameserver %>
+<% else -%>
+network --hostname <%= @hostname %>
+<% end -%>
+rootpw --iscrypted <%= @rootpw %>
+firewall --service=ssh
+authselect --useshadow --passalgo=sha256 --kickstart
+timezone --utc <%= @timezone %>
+services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
+repo --name="epel" --baseurl=<%= @epelrepo %>
+
+bootloader --location=mbr --append="nofb quiet splash=quiet"
+
+zerombr
+  clearpart --all --initlabel
+  part /boot --fstype xfs --size 512 --asprimary
+  part pv.sda --size=5120 --grow --maxsize=<%= @maxsize %> --asprimary
+  part pv.ext --grow
+  volgroup vg_root pv.sda
+    logvol swap --name=lv_swap --vgname=vg_root --size=256
+    logvol / --name=lv_root --vgname=vg_root --fstype=xfs --size=4096 --grow
+
+text
+reboot
+
+%packages
+dnf
+dhclient
+chrony
+-ntp
+pciutils
+net-tools
+@Core
+%end

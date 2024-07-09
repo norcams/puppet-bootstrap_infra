@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Script to provision <%= @certname %> using dnsmasq to provide
+# dhcp and tftp and python as a simple web server for the kickstart
+# file
+#
+# PLEASE REVIEW THE SETTINGS
+#
+cat "$0"
+read -p "Press any key to continue"
+
+#
+# Prepare pxelinux files for tftpboot
+#
+cp -f /usr/share/syslinux/ldlinux.c32 \
+ /usr/share/syslinux/pxelinux.0 \
+ /var/lib/tftpboot
+
+#
+# Get the installer initrd and kernel
+#
+curl -f -L -C - -o /var/lib/tftpboot/boot/initrd.img \
+  <%= @image_repo %>/images/pxeboot/initrd.img
+curl -f -L -C - -o /var/lib/tftpboot/boot/vmlinuz \
+  <%= @image_repo %>/images/pxeboot/vmlinuz
+
+#
+# Serve kickstart file
+#
+pgrep -f "python3 -m http.server" | xargs --no-run-if-empty kill
+cd /var/www/html && python3 -m http.server 8000 --bind <%= @dhcp_interface_ip %> &
+
+#
+# Start dnsmasq to provide DHCP and tftp
+#
+dnsmasq -d --enable-tftp --tftp-root=/var/lib/tftpboot \
+  --dhcp-range=<%= @dhcp_range_start %>,<%= @dhcp_range_end %> \
+  --dhcp-option=3,<%= @dhcp_gateway %> \
+  --dhcp-option=6,<%= scope.lookupvar('::bootstrap_infra::nameserver') %> \
+  --port=0 -z -i <%= @dhcp_interface %> \
+  --dhcp-boot='pxelinux.0'

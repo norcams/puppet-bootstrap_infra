@@ -1,0 +1,12 @@
+
+# Update local time
+echo "updating system time"
+systemctl enable --now chronyd.service
+/usr/bin/chronyc -a makestep
+/usr/sbin/hwclock --systohc
+
+<% if @disable_ifnames -%>
+# Add "net.ifnames=0"
+/usr/bin/sed -i -e 's/quiet/net.ifnames=0 quiet/' /etc/default/grub
+/usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+<% end -%>

@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Script to provision <%= @certname %> using virt-install as an
+# libvirt instance on the local host
+#
+# PLEASE REVIEW THE SETTINGS
+#
+cat "$0"
+read -p "This will destroy <%= @name %>. Press any key to continue"
+
+#
+# Serve kickstart file
+#
+pgrep -f "python3 -m http.server" | xargs --no-run-if-empty kill
+cd /var/www/html && python3 -m http.server &
+
+# Give some time to the python http server to start
+/bin/sleep 10
+
+#
+# Run virt-install to build (or rebuild) <%= @name %>
+#
+virsh destroy <%= @name %>
+virsh undefine <%= @name %>
+virsh vol-delete --pool <%= @libvirt_pool %> <%= @name %>.img
+virsh vol-delete --pool <%= @libvirt_pool %> <%= @name %>.qcow2
+virsh pool-refresh --pool <%= @libvirt_pool %>
+virt-install -v \
+  -n <%= @name %> \
+  -r <%= @vm_memory %> \
+  --vcpus <%= @vm_vcpus %> \
+  --autostart \
+  --noautoconsole \
+  --wait=-1 \
+  --graphics vnc,listen=<%= @interface_ip %> \
+  --os-variant=<%= @os_variant %> \
+  --accelerate \
+  -w network=<%= @libvirt_network %> \
+  --disk pool=<%= @libvirt_pool %>,size=<%= @root_size %> --force \
+  -l <%= @mirror %> \
+  -x "inst.ks=<%= @ks_url %> network inst.ks.sendmac net.ifnames=0 \
+<% if @install_ip %>     ip=<%= @install_ip %>::<%= @install_gateway %>::<%= @install_netmask %> \
+     nameserver=<%= @nameserver %> \<% end %>
+<% if @vm_console %>     console=ttyS0,115200 \ <% end %>
+     " &

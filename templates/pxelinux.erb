@@ -1,0 +1,5 @@
+default linux
+label linux
+kernel boot/vmlinuz
+append initrd=boot/initrd.img inst.ks=<%= @ks_url %> inst.ks.sendmac network <%= @kernel_opts %>
+IPAPPEND 2
