@@ -5,8 +5,8 @@ keyboard <%= @keyboard %>
 skipx
 <% if @use_dhcp -%>
 network --bootproto dhcp --hostname <%= @hostname %>
-<%  elsif !@install_ip.empty? and !@install_netmask.empty? and !@install_gateway.empty? -%>
-network --device=link --bootproto=static --hostname <%= @hostname %> --ip=<%= @install_ip %> --netmask=<%= @install_netmask %> --gateway=<%= @install_gateway %> --nameserver=<%= @nameserver %>
+<%  elsif !@node_ip.empty? and !@node_netmask.empty? and !@node_gateway.empty? -%>
+network --device=link --bootproto=static --hostname <%= @hostname %> --ip=<%= @node_ip %> --netmask=<%= @node_netmask %> --gateway=<%= @node_gateway %> --nameserver=<%= @nameserver %>
 <% else -%>
 network --hostname <%= @hostname %>
 <% end -%>

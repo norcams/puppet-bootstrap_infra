@@ -9,9 +9,9 @@ define bootstrap_infra::install::libvirt(
   String $nameserver                = $bootstrap_infra::nameserver,
   String $libvirt_pool              = 'default',
   String $libvirt_network           = 'default',
-  Optional[String] $install_ip      = undef,
-  Optional[String] $install_netmask = undef,
-  Optional[String] $install_gateway = undef,
+  Optional[String] $node_ip         = undef,
+  Optional[String] $node_netmask    = undef,
+  Optional[String] $node_gateway    = undef,
   String $os_variant                = 'almalinux8',
   String $vm_console                = 'ttyS0,115200',
   Integer $vm_vcpus                 = 2,
@@ -21,7 +21,7 @@ define bootstrap_infra::install::libvirt(
 ) {
 
   # interface IP used for ks_url and vnc
-  $interface_ip = inline_template("<%= scope.lookupvar('::ipaddress_${bootstrap_infra::interface}') %>")
+  $interface_ip = inline_template("<%= scope.lookupvar('::ipaddress_${bootstrap_infra::host_interface}') %>")
   $ks_url = "http://${interface_ip}:8000/${name}.cfg"
 
   file { "/usr/local/sbin/bootstrap-${name}.sh":
@@ -34,14 +34,15 @@ define bootstrap_infra::install::libvirt(
   # use bootstrap_infra::kickstart_defaults to override other defaults
   $kickstart = {
     ensure => $ensure,
-    use_dhcp => empty($install_ip)? { true => true, default => false },
+    use_dhcp => empty($node_ip)? { true => true, default => false },
     maxsize => $maxsize,
     rootpw => $rootpw,
-    install_ip => $install_ip,
-    install_netmask => $install_netmask,
-    install_gateway => $install_gateway,
+    node_ip => $node_ip,
+    node_netmask => $node_netmask,
+    node_gateway => $node_gateway,
   }
 
+  info($kickstart)
   create_resources('::bootstrap_infra::kickstart', $name => $kickstart, $bootstrap_infra::kickstart_defaults)
 
 }

@@ -1,4 +1,6 @@
 #
+# default values in data/common.yaml
+#
 class bootstrap_infra(
   String $domain,
   String $mirror,
@@ -8,7 +10,7 @@ class bootstrap_infra(
   String $nameserver,
   String $puppetrepo,
   String $epelrepo,
-  String $interface,
+  String $host_interface,
   Hash $kickstart_defaults,
 ) {
 

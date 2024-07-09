@@ -7,16 +7,16 @@ define bootstrap_infra::install::tftp (
   String $image_repo                = $bootstrap_infra::mirror,
   String $kernel_opts               = "net.ifnames=0",
   String $macaddress                = 'default',
-  String $dhcp_interface            = $bootstrap_infra::interface,
+  String $dhcp_interface            = $bootstrap_infra::host_interface,
   String $dhcp_range_start          = '10.0.0.10',
   String $dhcp_range_end            = '10.0.0.10',
   String $dhcp_gateway              = '10.0.0.1',
   # kickstart vars
   String $rootpw                    = $bootstrap_infra::rootpw,
   Boolean $use_dhcp                 = true,
-  Optional[String] $install_ip      = undef,
-  Optional[String] $install_netmask = undef,
-  Optional[String] $install_gateway = undef,
+  Optional[String] $node_ip         = undef,
+  Optional[String] $node_netmask    = undef,
+  Optional[String] $node_gateway    = undef,
   Integer $maxsize                  = 10240
 ) {
 
@@ -53,9 +53,9 @@ define bootstrap_infra::install::tftp (
     maxsize => $maxsize,
     use_dhcp => $use_dhcp,
     rootpw => $rootpw,
-    install_ip => $install_ip,
-    install_netmask => $install_netmask,
-    install_gateway => $install_gateway,
+    node_ip => $node_ip,
+    node_netmask => $node_netmask,
+    node_gateway => $node_gateway,
   }
 
   create_resources('::bootstrap_infra::kickstart', $name => $kickstart, $bootstrap_infra::kickstart_defaults)
