@@ -60,10 +60,12 @@ define bootstrap_infra::kickstart (
     order   => '03'
   }
 
-  concat::fragment { "${name}-provision_template":
-    target  => "/var/www/html/${name}.cfg",
-    content => template($provision_template),
-    order   => '04'
+  unless empty($provision_template) {
+    concat::fragment { "${name}-provision_template":
+      target  => "/var/www/html/${name}.cfg",
+      content => template($provision_template),
+      order   => '04'
+    }
   }
 
   concat::fragment { "${name}-post_end_template":
