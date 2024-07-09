@@ -1,6 +1,14 @@
 ---
-bootstrap_infra::domain: '%{::domain}'
-bootstrap_infra::mirror: 'https://download.iaas.uio.no/nrec/prod/el8/almalinux-base'
+bootstrap_infra::domain:              '%{::domain}'
+bootstrap_infra::mirror:              'https://download.iaas.uio.no/nrec/prod/el8/almalinux-base'
+bootstrap_infra::timezone:            'Europe/Oslo'
+bootstrap_infra::keyboard:            'no'
+bootstrap_infra::nameserver:          '8.8.8.8'
+bootstrap_infra::puppetrepo:          'https://github.com/norcams/himlar'
+bootstrap_infra::epelrepo:            'https://download.iaas.uio.no/nrec/prod/el8/epel'
+bootstrap_infra::host_interface:      'eth1'
+# used to override vars in bootstrap_infra::kickstart
+bootstrap_infra::kickstart_defaults:  {}
 
 bootstrap_infra::setup::tftp::dirs:
   - '/var/lib/tftpboot'
