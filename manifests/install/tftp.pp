@@ -1,17 +1,16 @@
 #
 define bootstrap_infra::install::tftp (
-  $ensure           = 'present',
+  Enum['present', 'absent'] $ensure = 'present',
   String $domain                    = $bootstrap_infra::domain,
   String $certname                  = "${name}.${domain}",
   String $hostname                  = "${name}.${domain}",
   String $image_repo                = $bootstrap_infra::mirror,
-  String $kernel_opts               = "net.ifnames=0",
+  String $kernel_opts               = 'net.ifnames=0',
   String $macaddress                = 'default',
   String $dhcp_interface            = $bootstrap_infra::host_interface,
   String $dhcp_range_start          = '10.0.0.10',
   String $dhcp_range_end            = '10.0.0.10',
   String $dhcp_gateway              = '10.0.0.1',
-  # kickstart vars
   String $rootpw                    = $bootstrap_infra::rootpw,
   Boolean $use_dhcp                 = true,
   Optional[String] $node_ip         = undef,
@@ -26,7 +25,7 @@ define bootstrap_infra::install::tftp (
   $ks_url = "http://${dhcp_interface_ip}:8000/${name}.cfg"
 
   if $macaddress == 'default' {
-    file { "/var/lib/tftpboot/pxelinux.cfg/default":
+    file { '/var/lib/tftpboot/pxelinux.cfg/default':
       ensure  => $ensure,
       content => template("${module_name}/pxelinux.erb"),
     }
