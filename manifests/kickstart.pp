@@ -31,6 +31,7 @@ define bootstrap_infra::kickstart (
   Optional[String] $node_ip         = undef,
   Optional[String] $node_netmask    = undef,
   Optional[String] $node_gateway    = undef,
+  String $puppet_env                = 'production',
   String $main_template             = "${module_name}/kickstart/main.erb",
   String $provision_template        = "${module_name}/kickstart/provision.erb",
   String $custom_template           = "${module_name}/kickstart/el8.erb",

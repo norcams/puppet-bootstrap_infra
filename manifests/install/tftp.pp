@@ -12,6 +12,7 @@ define bootstrap_infra::install::tftp (
   String $dhcp_range_end            = '10.0.0.10',
   String $dhcp_gateway              = '10.0.0.1',
   String $rootpw                    = $bootstrap_infra::rootpw,
+  String $puppet_env                = 'production',
   Boolean $use_dhcp                 = true,
   Optional[String] $node_ip         = undef,
   Optional[String] $node_netmask    = undef,
@@ -48,6 +49,7 @@ define bootstrap_infra::install::tftp (
   # kickstart file
   $kickstart = {
     ensure => $ensure,
+    puppet_env => $puppet_env,
     disable_ifnames => $kernel_opts =~ /.*net\.ifnames=0.*/? { true => true, default => false },
     maxsize => $maxsize,
     use_dhcp => $use_dhcp,

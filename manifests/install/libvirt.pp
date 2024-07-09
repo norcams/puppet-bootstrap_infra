@@ -7,6 +7,7 @@ define bootstrap_infra::install::libvirt(
   String $rootpw                    = $bootstrap_infra::rootpw,
   String $mirror                    = $bootstrap_infra::mirror,
   String $nameserver                = $bootstrap_infra::nameserver,
+  String $puppet_env                = 'production',
   String $libvirt_pool              = 'default',
   String $libvirt_network           = 'default',
   Optional[String] $node_ip         = undef,
@@ -34,6 +35,7 @@ define bootstrap_infra::install::libvirt(
   # use bootstrap_infra::kickstart_defaults to override other defaults
   $kickstart = {
     ensure => $ensure,
+    puppet_env => $puppet_env,
     use_dhcp => empty($node_ip)? { true => true, default => false },
     maxsize => $maxsize,
     rootpw => $rootpw,
