@@ -28,6 +28,7 @@ define bootstrap_infra::kickstart (
   Integer $maxsize                  = 10240,
   Boolean $disable_ifnames          = true,
   Boolean $use_dhcp                 = true,
+  Boolean $allow_ssh                = false,
   Optional[String] $node_ip         = undef,
   Optional[String] $node_netmask    = undef,
   Optional[String] $node_gateway    = undef,
