@@ -14,7 +14,7 @@ define bootstrap_infra::install::libvirt(
   Optional[String] $node_netmask    = undef,
   Optional[String] $node_gateway    = undef,
   String $os_variant                = 'almalinux8',
-  String $vm_console                = 'ttyS0,115200',
+  String $vm_console                = '',
   Integer $vm_vcpus                 = 2,
   Integer $vm_memory                = 4096,
   Integer $root_size                = 12,
