@@ -46,7 +46,6 @@ define bootstrap_infra::install::libvirt(
     node_gateway => $node_gateway,
   }
 
-  info($kickstart)
   create_resources('::bootstrap_infra::kickstart', $name => $kickstart, $bootstrap_infra::kickstart_defaults)
 
 }
