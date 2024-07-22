@@ -21,6 +21,8 @@ define bootstrap_infra::install::libvirt(
   Integer $maxsize                  = 10240
 ) {
 
+  require bootstrap_infra::setup::libvirt
+
   # interface IP used for ks_url and vnc
   $interface_ip = inline_template("<%= scope.lookupvar('::ipaddress_${bootstrap_infra::host_interface}') %>")
   $ks_url = "http://${interface_ip}:8000/${name}.cfg"

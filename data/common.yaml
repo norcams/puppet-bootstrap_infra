@@ -15,4 +15,9 @@ bootstrap_infra::setup::tftp::dirs:
   - '/var/lib/tftpboot/boot'
   - '/var/lib/tftpboot/pxelinux.cfg'
 bootstrap_infra::setup::tftp::packages:
-  - 'syslinux'
+  'syslinux': {}
+
+bootstrap_infra::setup::libvirt::dirs:
+  - '/var/www'
+  - '/var/www/html'
+bootstrap_infra::setup::libvirt::packages: {}
