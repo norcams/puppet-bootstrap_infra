@@ -14,6 +14,9 @@ bootstrap_infra::setup::tftp::dirs:
   - '/var/lib/tftpboot'
   - '/var/lib/tftpboot/boot'
   - '/var/lib/tftpboot/pxelinux.cfg'
+  - '/var/www'
+  - '/var/www/html'
+
 bootstrap_infra::setup::tftp::packages:
   'syslinux': {}
 
