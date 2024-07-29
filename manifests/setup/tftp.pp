@@ -3,7 +3,7 @@
 #
 class bootstrap_infra::setup::tftp(
   Array[String] $dirs,
-  Array[String] $packages,
+  Hash $packages,
 ) {
 
 
@@ -14,6 +14,6 @@ class bootstrap_infra::setup::tftp(
     mode   => '0644',
   }
 
-  ensure_resource('package', $packages, {'ensure' => 'installed'})
+  create_resources('package', $packages, {'ensure' => 'installed'})
 
 }
