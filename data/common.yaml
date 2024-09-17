@@ -1,5 +1,5 @@
 ---
-bootstrap_infra::domain:              '%{::domain}'
+bootstrap_infra::domain:              '%{facts.networking.domain}'
 bootstrap_infra::mirror:              'https://download.iaas.uio.no/nrec/prod/el8/almalinux-base'
 bootstrap_infra::timezone:            'Europe/Oslo'
 bootstrap_infra::keyboard:            'no'
