@@ -23,7 +23,7 @@ define bootstrap_infra::install::tftp (
 
   require bootstrap_infra::setup::tftp
 
-  $dhcp_interface_ip = inline_template("<%= scope.lookupvar('::ipaddress_${dhcp_interface}') %>")
+  $dhcp_interface_ip = inline_template("<%= @networking['interfaces']['${dhcp_interface}']['ip'] %>")
   $ks_url = "http://${dhcp_interface_ip}:8000/${name}.cfg"
 
   if $macaddress == 'default' {
