@@ -7,7 +7,6 @@ define bootstrap_infra::install::libvirt(
   String $rootpw                    = $bootstrap_infra::rootpw,
   String $mirror                    = $bootstrap_infra::mirror,
   String $nameserver                = $bootstrap_infra::nameserver,
-  Boolean $allow_ssh                = false,
   String $puppet_env                = 'production',
   String $libvirt_pool              = 'default',
   String $libvirt_network           = 'default',
