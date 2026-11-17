@@ -13,6 +13,7 @@ define bootstrap_infra::install::tftp (
   String $dhcp_gateway              = '10.0.0.1',
   String $rootpw                    = $bootstrap_infra::rootpw,
   String $puppet_env                = 'production',
+  String $installdevice             = 'sda',
   Boolean $use_dhcp                 = true,
   Optional[String] $node_ip         = undef,
   Optional[String] $node_netmask    = undef,

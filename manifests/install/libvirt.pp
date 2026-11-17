@@ -7,6 +7,7 @@ define bootstrap_infra::install::libvirt(
   String $rootpw                    = $bootstrap_infra::rootpw,
   String $mirror                    = $bootstrap_infra::mirror,
   String $nameserver                = $bootstrap_infra::nameserver,
+  String $installdevice             = 'sda',
   String $puppet_env                = 'production',
   String $libvirt_pool              = 'default',
   String $libvirt_network           = 'default',
@@ -36,15 +37,16 @@ define bootstrap_infra::install::libvirt(
   # kickstart file config
   # use bootstrap_infra::kickstart_defaults to override other defaults
   $kickstart = {
-    ensure => $ensure,
-    puppet_env => $puppet_env,
-    use_dhcp => empty($node_ip)? { true => true, default => false },
-    maxsize => $maxsize,
-    rootpw => $rootpw,
-    allow_ssh => $allow_ssh,
-    node_ip => $node_ip,
-    node_netmask => $node_netmask,
-    node_gateway => $node_gateway,
+    ensure        => $ensure,
+    puppet_env    => $puppet_env,
+    use_dhcp      => empty($node_ip)? { true => true, default => false },
+    maxsize       => $maxsize,
+    rootpw        => $rootpw,
+    allow_ssh     => $allow_ssh,
+    node_ip       => $node_ip,
+    node_netmask  => $node_netmask,
+    node_gateway  => $node_gateway,
+    installdevice => $installdevice
   }
 
   create_resources('::bootstrap_infra::kickstart', $name => $kickstart, $bootstrap_infra::kickstart_defaults)

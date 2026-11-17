@@ -11,7 +11,7 @@
 #
 # Defaults and templates:
 # To change mulitple templates or vars for all nodes use
-#   bootstrap_infra::kickstart_defaults hash
+#   bootstrap_infra::kickstart_defaults hash (NB! cannot set vars set in install::libvirt or tftp)
 #
 define bootstrap_infra::kickstart (
   Enum['present', 'absent'] $ensure = 'present',
@@ -29,6 +29,7 @@ define bootstrap_infra::kickstart (
   Boolean $disable_ifnames          = true,
   Boolean $use_dhcp                 = true,
   Boolean $allow_ssh                = false,
+  String $installdevice             = 'sda',
   Optional[String] $node_ip         = undef,
   Optional[String] $node_netmask    = undef,
   Optional[String] $node_gateway    = undef,
