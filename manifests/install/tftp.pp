@@ -55,10 +55,10 @@ define bootstrap_infra::install::tftp (
     maxsize => $maxsize,
     use_dhcp => $use_dhcp,
     rootpw => $rootpw,
-    allow_ssh => $allow_ssh,
     node_ip => $node_ip,
     node_netmask => $node_netmask,
     node_gateway => $node_gateway,
+    installdevice => $installdevice
   }
 
   create_resources('::bootstrap_infra::kickstart', $name => $kickstart, $bootstrap_infra::kickstart_defaults)

@@ -42,7 +42,6 @@ define bootstrap_infra::install::libvirt(
     use_dhcp      => empty($node_ip)? { true => true, default => false },
     maxsize       => $maxsize,
     rootpw        => $rootpw,
-    allow_ssh     => $allow_ssh,
     node_ip       => $node_ip,
     node_netmask  => $node_netmask,
     node_gateway  => $node_gateway,
