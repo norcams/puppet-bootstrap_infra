@@ -35,7 +35,11 @@ virt-install -v \
   --graphics vnc,listen=<%= @interface_ip %> \
   --os-variant=<%= @os_variant %> \
   --accelerate \
-  -w network=<%= @libvirt_network %> \
+<% if @libvirt_networks&.any? -%>
+<% @libvirt_networks.each do |net| -%>
+  --network network=<%= net %>,model=virtio \
+<% end -%>
+<% end -%>
   --disk pool=<%= @libvirt_pool %>,size=<%= @root_size %> --force \
   -l <%= @mirror %> \
   -x "inst.ks=<%= @ks_url %> network inst.ks.sendmac net.ifnames=0 \

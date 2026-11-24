@@ -10,7 +10,7 @@ define bootstrap_infra::install::libvirt(
   String $installdevice             = 'sda',
   String $puppet_env                = 'production',
   String $libvirt_pool              = 'default',
-  String $libvirt_network           = 'default',
+  Array $libvirt_networks           = ['default'],
   Optional[String] $node_ip         = undef,
   Optional[String] $node_netmask    = undef,
   Optional[String] $node_gateway    = undef,
